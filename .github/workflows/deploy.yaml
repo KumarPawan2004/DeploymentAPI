@@ -9,7 +9,9 @@ env:
 
 jobs:
   build-and-push:
+    name: Build & Push Docker Image
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v4
     
