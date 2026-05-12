@@ -18,4 +18,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\ASUS\OneDrive\Desktop\DeploymentAPI\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\ASUS\OneDrive\Desktop\DeploymentAPI\.editorconfig" />
+  </ItemGroup>
+
 </Project>
