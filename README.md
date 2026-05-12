@@ -1,4 +1,3 @@
-cat > README.md << 'EOF'
 # Deployment API
 
 .NET 8 Web API with PostgreSQL and JWT Authentication
@@ -13,3 +12,4 @@ cat > README.md << 'EOF'
 ## Run Locally
 ```bash
 dotnet run
+```
