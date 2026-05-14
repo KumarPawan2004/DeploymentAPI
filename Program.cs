@@ -84,4 +84,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Set the port to 5000
-app.Run("http://localhost:5000");
+//app.Run("http://localhost:5000");
