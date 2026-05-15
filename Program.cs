@@ -50,8 +50,7 @@ builder.Services.AddCors(options =>
         builder => builder
             .AllowAnyOrigin()
             .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials());
+            .AllowAnyHeader());
 });
 
 builder.Services.AddControllers();
