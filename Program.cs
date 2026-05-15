@@ -43,6 +43,17 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReact",
+        builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
