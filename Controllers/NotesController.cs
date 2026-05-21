@@ -168,20 +168,28 @@ public class NotesController : ControllerBase
         if (note == null)
             return NotFound("Note not found");
 
-        if (note.Status != "Approved")
+        // Fetch user to check if they are an admin
+        var user = await _context.Users.FindAsync(userId);
+        var isAdmin = user?.Role == "Admin";
+
+        if (note.Status != "Approved" && !isAdmin)
             return BadRequest("Note is not available for download");
 
-        // Check if user has access (free note, purchased, or owner)
-        var hasAccess = note.IsFree ||
+        // Check if user has access (free note, purchased, owner, or admin)
+        var hasAccess = isAdmin ||
+                        note.IsFree ||
                         note.UserId == userId ||
                         await _context.Purchases.AnyAsync(p => p.NoteId == id && p.UserId == userId);
 
         if (!hasAccess)
             return BadRequest("You haven't purchased this note");
 
-        // Increment download count
-        note.Downloads++;
-        await _context.SaveChangesAsync();
+        // Increment download count (only for non-admins to avoid polluting download stats)
+        if (!isAdmin)
+        {
+            note.Downloads++;
+            await _context.SaveChangesAsync();
+        }
 
         var filePath = Path.Combine(_environment.WebRootPath ?? "wwwroot", note.FilePath.TrimStart('/'));
         if (!System.IO.File.Exists(filePath))
