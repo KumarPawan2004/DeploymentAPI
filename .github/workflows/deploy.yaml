@@ -8,10 +8,8 @@ env:
   DOCKER_IMAGE: ${{ secrets.DOCKER_HUB_USERNAME }}/deployment-api
 
 jobs:
-  build-and-push:
-    name: Build & Push Docker Image
+  build-and-deploy:
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v4
     
@@ -29,3 +27,13 @@ jobs:
         tags: |
           ${{ env.DOCKER_IMAGE }}:latest
           ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
+    
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Deploy to AKS
+      run: |
+        az aks get-credentials --resource-group deployment-rg --name deployment-aks
+        kubectl set image deployment/backend backend=${{ env.DOCKER_IMAGE }}:${{ github.sha }}
